@@ -1,0 +1,21 @@
+<header>
+  <div class="toolbar">
+    <button id="menuButton" (click)="goBack()">
+      ←
+    </button>
+    <h1>🎵 Seleccionar Playlist</h1>
+  </div>
+</header>
+<ion-content>
+<main>
+  <!-- Lista de playlists -->
+  <ul class="playlist-list">
+    <li *ngFor="let playlist of playlists" (click)="selectPlaylist(playlist)">
+      {{ playlist.name }}
+    </li>
+  </ul>
+
+  <!-- Botón para crear nueva playlist -->
+  <button class="create-button" (click)="createNewPlaylist()">Crear Nueva Playlist</button>
+</main>
+</ion-content>

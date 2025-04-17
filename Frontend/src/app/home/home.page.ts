@@ -16,7 +16,7 @@ import { AudioPlayerComponent } from '../audio-player/audio-player.component';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  styleUrls: ['home.page.scss', 'home.page2.scss'],
   standalone: true,
   imports: [
     NavbarComponent,
@@ -123,7 +123,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   loadRecommendations() {
-
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -134,12 +133,11 @@ export class HomePage implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error cargando recomendaciones:', err);
-      }
+      },
     });
   }
 
   loadNewReleases() {
-
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -150,12 +148,11 @@ export class HomePage implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error cargando nuevos lanzamientos:', err);
-      }
+      },
     });
   }
 
   loadFeaturedPlaylists() {
-
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -166,10 +163,9 @@ export class HomePage implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error cargando playlists destacadas:', err);
-      }
+      },
     });
   }
-
 
   loadPlaylists() {
     this.musicService.getPlaylists().subscribe({
@@ -245,68 +241,56 @@ export class HomePage implements OnInit, OnDestroy {
       },
     });
   }
-  async openOptions(playlist: any) {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Opciones',
-      buttons: [
-        {
-          text: 'Editar',
-          handler: () => {
-            this.editPlaylist(playlist);
-          },
-        },
-        {
-          text: 'Eliminar',
-          role: 'destructive',
-          handler: () => {
-            this.confirmDeletePlaylist(playlist);
-          },
-        },
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-      ],
-    });
 
-    await actionSheet.present();
+  async openOptions(playlist: any, event: Event) {
+    event.stopPropagation();
+    this.closeAllOptions(); 
+    playlist.showOptions = !playlist.showOptions; // Alterna la visibilidad de las opciones
   }
 
-  async confirmDeletePlaylist(playlist: any) {
+  handleOptionSelection(option: string, playlist: any) {
+    switch (option) {
+      case 'edit':
+        this.editPlaylist(playlist);
+        break;
+      case 'delete':
+        this.confirmDeletePlaylist(playlist);
+        break;
+      default:
+        console.log('Opción no reconocida:', option);
+    }
+  }
+
+  goToPlaylist(playlist: any) {
+    this.router.navigate(['/playlist-list'], {
+      queryParams: {
+        playlistId: playlist.id, // ID de la playlist
+        playlistName: playlist.name, // Nombre de la playlist
+      },
+    });
+  }
+
+  confirmDeletePlaylist(playlist: any) {
     console.log('Objeto playlist recibido:', playlist); // Depuración
     if (!playlist || !playlist.id) {
       console.error('El objeto playlist no tiene un ID válido:', playlist);
       return;
     }
 
-    const alert = await this.alertController.create({
-      header: 'Confirmar eliminación',
-      message: `¿Estás seguro de que deseas eliminar la playlist "${playlist.name}"?`,
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
+    const confirm = window.confirm(`¿Estás seguro de que deseas eliminar la playlist "${playlist.name}"?`);
+    if (confirm) {
+      this.musicService.deletePlaylist(playlist.id).subscribe({
+        next: (response) => {
+          console.log('Playlist eliminada:', response);
+          this.playlists = this.playlists.filter((p) => p.id !== playlist.id);
         },
-        {
-          text: 'Eliminar',
-          role: 'destructive',
-          handler: () => {
-            this.musicService.deletePlaylist(playlist.id).subscribe({
-              next: (response) => {
-                console.log('Playlist eliminada:', response);
-                this.playlists = this.playlists.filter(
-                  (p) => p.id !== playlist.id
-                );
-              },
-              error: (error) => {
-                console.error('Error al eliminar la playlist:', error);
-              },
-            });
-          },
+        error: (error) => {
+          console.error('Error al eliminar la playlist:', error);
         },
-      ],
-    });
-
-    await alert.present();
+      });
+    }
+  }
+  closeAllOptions() {
+    this.playlists.forEach((playlist) => (playlist.showOptions = false));
   }
 }

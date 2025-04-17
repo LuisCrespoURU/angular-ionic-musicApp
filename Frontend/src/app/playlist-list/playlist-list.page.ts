@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MusicService } from '../services/music.service';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { AudioPlayerComponent } from '../audio-player/audio-player.component';
-
 
 @Component({
   selector: 'app-playlist-list',
@@ -19,7 +18,11 @@ export class PlaylistListPage implements OnInit {
   playlistName: string = '';
   songs: any[] = []; // Lista de canciones de la playlist
 
-  constructor(private route: ActivatedRoute, private musicService: MusicService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private musicService: MusicService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     // Obtener los parámetros de la URL
@@ -31,6 +34,17 @@ export class PlaylistListPage implements OnInit {
         this.loadPlaylist(this.playlistId);
       }
     });
+
+    // Suscribirse a los cambios en las playlists
+    this.musicService.playlistUpdated$.subscribe((updatedPlaylist) => {
+      if (updatedPlaylist && updatedPlaylist.id === this.playlistId) {
+        console.log('Playlist actualizada:', updatedPlaylist);
+        this.songs = updatedPlaylist.songs.map((song: any) => ({
+          ...song,
+          imageUrl: song.imageUrl || 'assets/default-song.png', // Agrega un valor por defecto
+        }));
+      }
+    });
   }
 
   loadPlaylist(playlistId: string) {
@@ -38,10 +52,10 @@ export class PlaylistListPage implements OnInit {
       next: (playlist) => {
         console.log('Respuesta del backend:', playlist); // Depuración
         if (playlist && playlist.songs) {
-          // Mapea `_id` a `id` en las canciones si es necesario
           this.songs = playlist.songs.map((song: any) => ({
             ...song,
             id: song._id, // Mapea `_id` a `id`
+            imageUrl: song.imageUrl || 'assets/default-song.png', // Agrega un valor por defecto
           }));
           console.log('Canciones de la playlist cargadas:', this.songs);
         } else {
@@ -73,5 +87,13 @@ export class PlaylistListPage implements OnInit {
         console.error('Error al eliminar la canción:', error);
       },
     });
+  }
+
+  goBack() {
+    this.router.navigate(['/home']); // Navega de regreso a la página principal
+  }
+
+  goToSongDetail(songId: string): void {
+    this.router.navigate(['/song-detail', songId]); // Navega a la página de detalles de la canción
   }
 }

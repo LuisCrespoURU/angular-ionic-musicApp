@@ -6,7 +6,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { AudioPlayerComponent } from '../audio-player/audio-player.component';
-import { Location } from '@angular/common'; // Importación de Location
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-playlist',
@@ -17,7 +18,7 @@ import { Location } from '@angular/common'; // Importación de Location
 })
 export class PlaylistPage implements OnInit {
   playlistName: string = '';
-  selectedSongs: { id: string; name: string }[] = [];
+  selectedSongs: { id: string; name: string; imageUrl?: string }[] = [];
   isEditMode: boolean = false;
   playlistId: string | null = null;
 
@@ -40,8 +41,9 @@ export class PlaylistPage implements OnInit {
 
       const trackId = params['trackId'];
       const trackName = params['trackName'];
+      const trackImageUrl = params['trackImageUrl']; // Captura la URL de la imagen
       if (trackId && trackName) {
-        this.addSong({ id: trackId, name: trackName });
+        this.addSong({ id: trackId, name: trackName, imageUrl: trackImageUrl });
       }
     });
 
@@ -59,7 +61,11 @@ export class PlaylistPage implements OnInit {
     this.musicService.getPlaylists(playlistId).subscribe({
       next: (playlist) => {
         this.playlistName = playlist.name;
-        this.selectedSongs = playlist.songs;
+        this.selectedSongs = playlist.songs.map((song: any) => ({
+          id: song.id,
+          name: song.name,
+          imageUrl: song.imageUrl || 'assets/default-song.png', // Imagen predeterminada
+        }));
         console.log('Playlist cargada:', this.selectedSongs);
       },
       error: (error) => {
@@ -108,10 +114,14 @@ export class PlaylistPage implements OnInit {
     }
   }
 
-  addSong(song: { id: string; name: string }) {
+  addSong(song: { id: string; name: string; imageUrl?: string }) {
     if (!this.selectedSongs.some((s) => s.id === song.id)) {
-      this.selectedSongs.push(song);
-      console.log('Canción agregada:', song);
+      const completeSong = {
+        ...song,
+        imageUrl: song.imageUrl || 'assets/default-song.png', // Imagen predeterminada
+      };
+      this.selectedSongs.push(completeSong);
+      console.log('Canción agregada:', completeSong);
     } else {
       console.log('La canción ya está en la playlist.');
     }
@@ -129,7 +139,6 @@ export class PlaylistPage implements OnInit {
       },
     });
   }
-
 
   goBack() {
     this.location.back();

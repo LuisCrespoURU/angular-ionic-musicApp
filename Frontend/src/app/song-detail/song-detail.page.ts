@@ -1,11 +1,13 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { MusicService } from '../services/music.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Location } from '@angular/common'; // Para navegación hacia atrás
 import { IonicModule } from '@ionic/angular';
 import ColorThief from 'color-thief-browser';
+import { PlaylistModalComponent } from '../playlist.component/playlist.component.page';
+import { Location } from '@angular/common'; // Importa Location
 
 @Component({
   selector: 'app-song-detail',
@@ -15,41 +17,43 @@ import ColorThief from 'color-thief-browser';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule, // Incluye todos los componentes de Ionic
+    IonicModule,
   ],
 })
 export class SongDetailPage implements OnInit {
-  song: any; // Detalles de la canción
-  artistNames: string = ''; // Nombres de los artistas como cadena
-  backgroundColor: string = 'black'; // Color de fondo por defecto
+  song: any;
+  artistNames: string = '';
+  backgroundColor: string = 'black';
 
-  @ViewChild('albumImage', { static: false }) albumImage!: ElementRef; // Referencia a la imagen del álbum
+  @ViewChild('albumImage', { static: false }) albumImage!: ElementRef;
   @ViewChild('audioPlayer', { static: false }) audioPlayer!: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private musicService: MusicService,
-    private location: Location // Para manejar la navegación hacia atrás
+    private modalController: ModalController,
+    private location: Location // Inyecta Location
   ) {}
 
   ngOnInit() {
-    const songId = this.route.snapshot.paramMap.get('id'); // Obtén el ID de la canción
+    const songId = this.route.snapshot.paramMap.get('id');
     if (songId) {
-      this.loadSongDetail(songId);
+      this.loadSongDetails(songId);
     } else {
       console.error('Song ID is null');
     }
   }
 
-  loadSongDetail(songId: string) {
-    this.musicService.getSongById(songId).subscribe((response) => {
-      this.song = response;
-
-      if (this.song.artists && Array.isArray(this.song.artists)) {
-        this.artistNames = this.song.artists.join(', ');
-      } else {
-        this.artistNames = 'Artista desconocido';
-      }
+  loadSongDetails(songId: string) {
+    this.musicService.getSongById(songId).subscribe({
+      next: (song) => {
+        this.song = song;
+        this.artistNames = song.artists.map((artist: any) => artist.name).join(', ');
+      },
+      error: (error) => {
+        console.error('Error al cargar los detalles de la canción:', error);
+      },
     });
   }
 
@@ -81,11 +85,46 @@ export class SongDetailPage implements OnInit {
     audio.pause();
   }
 
-  goBack() {
-    this.location.back(); // Navega hacia la página anterior
+    openAddToPlaylist() {
+    this.router.navigate(['/playlist.component'], {
+      queryParams: {
+        trackId: this.song.id,
+        trackName: this.song.name,
+        trackImageUrl: this.song.album.images[0]?.url,
+      },
+    });
   }
 
-  addToPlaylist() {
-    console.log('Agregar a Playlist'); // Implementa la lógica para agregar a la playlist
+  async loadPlaylists() {
+    return new Promise((resolve, reject) => {
+      this.musicService.getPlaylists().subscribe({
+        next: (playlists) => resolve(playlists),
+        error: (error) => reject(error),
+      });
+    });
+  }
+
+  addToPlaylist(playlist: any) {
+    const songData = {
+      id: this.song.id,
+      name: this.song.name,
+      imageUrl: this.song.album.images[0]?.url,
+    };
+
+    console.log('Datos de la canción:', songData);
+    console.log('Playlist seleccionada:', playlist);
+
+    this.musicService.addSongToPlaylist(playlist._id, songData).subscribe({
+      next: (response) => {
+        console.log('Canción agregada a la playlist:', response);
+      },
+      error: (error) => {
+        console.error('Error al agregar la canción a la playlist:', error);
+      },
+    });
+  }
+
+  goBack() {
+    this.location.back(); // Navega hacia atrás en el historial del navegador
   }
 }

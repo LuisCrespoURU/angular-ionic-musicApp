@@ -1,16 +1,27 @@
+<div class="custom-header">
+  <button class="back-button" (click)="goBack()">
+    ←
+  </button>
+  <h1>{{ playlistName }}</h1>
+</div>
+
 <ion-content>
   <!-- Mostrar un mensaje si no hay canciones -->
-  <div *ngIf="songs.length === 0">
+  <div class="empty-playlist" *ngIf="songs.length === 0">
     <p>No hay canciones en esta playlist.</p>
   </div>
 
   <!-- Lista de canciones -->
   <ion-list *ngIf="songs.length > 0">
-    <ion-item *ngFor="let song of songs">
-      <ion-label>
-        <h2>{{ song.name }}</h2>
-      </ion-label>
-      <ion-button slot="end" color="danger" (click)="removeSong(song.id)">Eliminar</ion-button>
+    <ion-item *ngFor="let song of songs" (click)="goToSongDetail(song.id)">
+      <div class="song-info">
+        <img [src]="song.imageUrl || 'assets/default-song.png'" alt="{{ song.name }}" class="song-image" />
+        <div class="song-details">
+          <h2>{{ song.name }}</h2>
+          <p>{{ song.author }}</p>
+        </div>
+      </div>
+      <ion-button slot="end" color="danger" (click)="removeSong(song.id); $event.stopPropagation()">Eliminar</ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

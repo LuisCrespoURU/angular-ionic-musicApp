@@ -1,4 +1,4 @@
-<ion-content id="mainContent">
+<ion-content id="mainContent" (click)="closeAllOptions()" >
   <div class="custom-header">
     <div class="header-left">
       <!-- Display username -->
@@ -13,6 +13,20 @@
     </div>
   </div>
 
+  <!-- Recent Songs as Carousel -->
+  <div class="viewed-tracks" *ngIf="viewedTracks.length > 0">
+    <h2>Recent Songs</h2>
+    <div class="carousel">
+      <div class="carousel-item" *ngFor="let track of viewedTracks | slice:0:6" (click)="goToSongDetail(track.id)">
+        <img class="track-image" [src]="track.imageUrl" [alt]="track.name" />
+        <div class="track-info">
+          <h3>{{ track.name }}</h3>
+          <small>{{ track.artists }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Popular Albums Section -->
   <div class="popular-albums">
     <h2>Popular Albums and Singles</h2>
@@ -21,23 +35,6 @@
         <img [src]="album.imageUrl" [alt]="album.name" />
         <span>{{ album.name }}</span>
         <small>{{ album.artists }}</small>
-      </div>
-    </div>
-  </div>
-
-  <!-- Recent Songs -->
-  <div class="viewed-tracks" *ngIf="viewedTracks.length > 0">
-    <h2>Recent Songs</h2>
-    <div class="track-grid">
-      <div
-        class="track-item"
-        *ngFor="let track of viewedTracks | slice:0:6"
-        (click)="goToSongDetail(track.id)"
-      >
-        <img class="track-image" [src]="track.imageUrl" [alt]="track.name" />
-        <div class="track-info">
-          <h3>{{ track.name }}</h3>
-        </div>
       </div>
     </div>
   </div>
@@ -81,32 +78,41 @@
   <!-- Playlists -->
   <div *ngIf="playlists.length > 0">
     <h2>My Playlists</h2>
-    <ion-list>
-      <ion-item *ngFor="let playlist of playlists">
-        <ion-label>
+    <ul class="playlist-list">
+      <li *ngFor="let playlist of playlists" class="playlist-item">
+        <div class="playlist-info">
           <h2>{{ playlist.name }}</h2>
           <p>{{ playlist.songs.length }} songs</p>
-        </ion-label>
-        <button
-          slot="end"
-          class="three-dots-btn"
-          (click)="openOptions(playlist)"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            style="fill: rgb(255, 255, 255)"
+        </div>
+        <div class="options-container">
+          <button
+            class="three-dots-btn"
+            (click)="openOptions(playlist, $event)"
           >
-            <path
-              d="M12,16a2,2,0,1,1-2,2A2,2,0,0,1,12,16ZM10,6a2,2,0,1,0,2-2A2,2,0,0,0,10,6Zm0,6a2,2,0,1,0,2-2A2,2,0,0,0,10,12Z"
-            />
-          </svg>
-        </button>
-      </ion-item>
-    </ion-list>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              style="fill: rgb(255, 255, 255)"
+            >
+              <path
+                d="M12,16a2,2,0,1,1-2,2A2,2,0,0,1,12,16ZM10,6a2,2,0,1,0,2-2A2,2,0,0,0,10,6Zm0,6a2,2,0,1,0,2-2A2,2,0,0,0,10,12Z"
+              />
+            </svg>
+          </button>
+          <div
+            class="options-menu"
+            *ngIf="playlist.showOptions"
+          >
+            <button (click)="editPlaylist(playlist)">Editar</button>
+            <button (click)="confirmDeletePlaylist(playlist)">Eliminar</button>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
+  <div class="Campo">d</div>
 </ion-content>
 
 <app-audio-player></app-audio-player>

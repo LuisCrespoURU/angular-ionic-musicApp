@@ -1,0 +1,87 @@
+/* Fondo general */
+body, ion-content {
+  --background: #1e1e2f;
+  color: #fff;
+  padding: 10px;
+}
+
+/* Encabezado */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #1e1e2f;
+  box-shadow: 0 5px 10px #14141f, 0 -5px 10px #28283f;
+  border-radius: 10px;
+}
+
+header h1 {
+  font-size: 18px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.close-button {
+  background: #1e1e2f;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.close-button:hover {
+  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
+}
+
+/* Lista de playlists */
+.playlist-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.playlist-list li {
+  padding: 15px;
+  margin-bottom: 10px;
+  background: #1e1e2f;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+}
+
+.playlist-list li:hover {
+  transform: scale(1.05);
+  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
+  color: #fff;
+}
+
+/* Botón para crear nueva playlist */
+.create-button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background: #1e1e2f;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.create-button:hover {
+  transform: scale(1.05);
+  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
+}

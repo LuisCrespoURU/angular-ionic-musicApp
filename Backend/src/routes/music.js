@@ -239,4 +239,148 @@ router.get('/featured-playlists', authMiddleware, async (req, res) => {
   }
 });
 
+// Ruta para crear una playlist
+router.post('/playlists', authMiddleware, async (req, res) => {
+  const { name, songs } = req.body;
+  const userId = req.user.id;
+
+  if (!name) {
+    return res.status(400).json({ error: 'El nombre de la playlist es obligatorio' });
+  }
+
+  try {
+    const newPlaylist = new Playlist({
+      name,
+      songs: songs || [],
+      createdBy: userId,
+    });
+
+    const savedPlaylist = await newPlaylist.save();
+    res.status(201).json(savedPlaylist);
+  } catch (error) {
+    console.error('Error al crear la playlist:', error);
+    res.status(500).json({ error: 'Error al crear la playlist' });
+  }
+});
+
+// Ruta para obtener todas las playlists del usuario autenticado
+router.get('/playlists', authMiddleware, async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const playlists = await Playlist.find({ createdBy: userId });
+    res.json(playlists);
+  } catch (error) {
+    console.error('Error al obtener las playlists:', error);
+    res.status(500).json({ error: 'Error al obtener las playlists' });
+  }
+});
+
+// Ruta para obtener una playlist específica por ID
+router.get('/playlists/:id', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const playlist = await Playlist.findById(id);
+
+    if (!playlist) {
+      return res.status(404).json({ error: 'Playlist no encontrada' });
+    }
+
+    res.json(playlist);
+  } catch (error) {
+    console.error('Error al obtener la playlist:', error);
+    res.status(500).json({ error: 'Error al obtener la playlist' });
+  }
+});
+
+// Ruta para actualizar una playlist
+router.put('/playlists/:id', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const { songs } = req.body;
+
+  try {
+    const updatedPlaylist = await Playlist.findByIdAndUpdate(
+      id,
+      { $set: { songs } },
+      { new: true }
+    );
+
+    if (!updatedPlaylist) {
+      return res.status(404).json({ error: 'Playlist no encontrada' });
+    }
+
+    res.json(updatedPlaylist);
+  } catch (error) {
+    console.error('Error al actualizar la playlist:', error);
+    res.status(500).json({ error: 'Error al actualizar la playlist' });
+  }
+});
+
+// Ruta para agregar una canción a una playlist
+router.post('/playlists/:playlistId/songs', authMiddleware, async (req, res) => {
+  const { playlistId } = req.params;
+  const song = req.body;
+
+  try {
+    const playlist = await Playlist.findById(playlistId);
+
+    if (!playlist) {
+      return res.status(404).json({ error: 'Playlist no encontrada' });
+    }
+
+    const completeSong = {
+      ...song,
+      imageUrl: song.imageUrl || 'assets/default-song.png',
+    };
+
+    playlist.songs.push(completeSong);
+    const updatedPlaylist = await playlist.save();
+
+    res.json(updatedPlaylist);
+  } catch (error) {
+    console.error('Error al agregar la canción a la playlist:', error);
+    res.status(500).json({ error: 'Error al agregar la canción a la playlist' });
+  }
+});
+
+// Ruta para eliminar una canción de una playlist
+router.delete('/playlists/:playlistId/songs/:songId', authMiddleware, async (req, res) => {
+  const { playlistId, songId } = req.params;
+
+  try {
+    const playlist = await Playlist.findById(playlistId);
+
+    if (!playlist) {
+      return res.status(404).json({ error: 'Playlist no encontrada' });
+    }
+
+    playlist.songs = playlist.songs.filter((song) => song.id !== songId);
+    const updatedPlaylist = await playlist.save();
+
+    res.json(updatedPlaylist);
+  } catch (error) {
+    console.error('Error al eliminar la canción de la playlist:', error);
+    res.status(500).json({ error: 'Error al eliminar la canción de la playlist' });
+  }
+});
+
+// Ruta para eliminar una playlist
+router.delete('/playlists/:id', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const playlist = await Playlist.findByIdAndDelete(id);
+
+    if (!playlist) {
+      return res.status(404).json({ error: 'Playlist no encontrada' });
+    }
+
+    res.json({ message: 'Playlist eliminada correctamente' });
+  } catch (error) {
+    console.error('Error al eliminar la playlist:', error);
+    res.status(500).json({ error: 'Error al eliminar la playlist' });
+  }
+});
+
 module.exports = router;

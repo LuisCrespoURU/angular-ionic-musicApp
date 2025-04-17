@@ -115,18 +115,20 @@ ion-button:hover {
 }
 
 .track-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 10px;
-  object-fit: cover;
-  margin-right: 10px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 
 .track-info h3 {
   font-size: 14px;
-  font-weight: bold;
-  color: #fff;
   margin: 0;
+}
+
+.track-info small {
+  font-size: 12px;
+  color: gray;
 }
 
 /* Sidebar */
@@ -148,130 +150,60 @@ ion-button:hover {
   left: 0;
 }
 
-.sidebar-header {
+/* Options menu */
+.options-container {
+  position: relative;
+}
+
+.options-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #333;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.options-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.options-menu button:hover {
+  background-color: #444;
+}
+
+/* Playlist */
+.playlist-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.playlist-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  background: #1e1e2f;
-  box-shadow: 0 5px 10px #14141f, 0 -5px 10px #28283f;
-}
-
-.sidebar-header .close-btn {
-  background: #1e1e2f;
-  border-radius: 50%;
-  color: #fff;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
-  cursor: pointer;
-}
-
-.sidebar-header .close-btn:hover {
-  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
-}
-
-.sidebar-menu li {
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  background: #1e1e2f;
-  border-radius: 10px;
-  margin: 5px 10px;
-  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.sidebar-menu li:hover {
-  background-color: #28283f;
-  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
-}
-
-.sidebar-menu ion-icon {
-  margin-right: 10px;
-}
-
-.carousel {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 15px;
-  padding: 10px 0;
-
-  /* Estilo de la barra de desplazamiento */
-  scrollbar-width: thin; /* Para navegadores compatibles */
-  scrollbar-color: #28283f #1e1e2f; /* Color del thumb y del track */
-}
-
-.carousel::-webkit-scrollbar {
-  height: 8px; /* Altura de la barra de desplazamiento */
-}
-
-.carousel::-webkit-scrollbar-track {
-  background: #1e1e2f; /* Fondo del track */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f; /* Neumorfismo interno */
-}
-
-.carousel::-webkit-scrollbar-thumb {
-  background: #28283f; /* Color del thumb */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f; /* Neumorfismo externo */
-}
-
-.carousel::-webkit-scrollbar-thumb:hover {
-  background: #3a3a4f; /* Color más claro al pasar el mouse */
-}
-
-.carousel-item {
-  flex: 0 0 auto;
-  scroll-snap-align: center;
-  width: 120px;
-  text-align: center;
-  color: #fff;
-  background: #1e1e2f;
-  border-radius: 10px;
-  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
   padding: 10px;
-  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+  border-bottom: 1px solid #ccc;
 }
 
-.carousel-item:hover {
-  transform: scale(1.05);
-  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
+.playlist-info h2 {
+  margin: 0;
+  font-size: 18px;
 }
 
-.carousel-item img {
-  width: 100%;
-  height: 120px;
-  border-radius: 10px;
-  object-fit: cover;
-  margin-bottom: 5px;
-}
-
-.carousel-item span {
+.playlist-info p {
+  margin: 0;
   font-size: 14px;
-  display: block;
-  margin-top: 5px;
+  color: #666;
 }
 
-/* Genres */
-.genres-list button {
-  background: #1e1e2f;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-.genres-list button:hover {
-  background: #28283f;
-  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
-}

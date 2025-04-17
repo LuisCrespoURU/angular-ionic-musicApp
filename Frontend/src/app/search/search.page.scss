@@ -1,29 +1,39 @@
+// Variables de colores
+$background-color: #1e1e2f;
+$text-color: #fff;
+$placeholder-color: #b3b3b3;
+$shadow-dark: #14141f;
+$shadow-light: #28283f;
+$hover-color: #3a3a4f;
+$highlight-color: rgb(136, 68, 131);
+
 ion-content {
   --background: #1e1e2f; /* Fondo oscuro uniforme */
+  background-color: #1e1e2f; /* Fallback para navegadores que no soporten variables CSS */
   color: #fff; /* Texto blanco */
   padding: 10px;
   scrollbar-width: thin;
   scrollbar-color: #28283f #1e1e2f;
-}
 
-ion-content::-webkit-scrollbar {
-  width: 8px; /* Ancho de la barra de desplazamiento */
-}
+  &::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento */
+  }
 
-ion-content::-webkit-scrollbar-track {
-  background: #1e1e2f; /* Fondo del track */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f; /* Neumorfismo interno */
-}
+  &::-webkit-scrollbar-track {
+    background: #1e1e2f; /* Fondo del track */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f; /* Neumorfismo interno */
+  }
 
-ion-content::-webkit-scrollbar-thumb {
-  background: #28283f; /* Color del thumb */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f; /* Neumorfismo externo */
-}
+  &::-webkit-scrollbar-thumb {
+    background: #28283f; /* Color del thumb */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f; /* Neumorfismo externo */
 
-ion-content::-webkit-scrollbar-thumb:hover {
-  background: #3a3a4f; /* Color más claro al pasar el mouse */
+    &:hover {
+      background: #3a3a4f; /* Color más claro al pasar el mouse */
+    }
+  }
 }
 
 /* Search Bar */
@@ -33,40 +43,41 @@ ion-content::-webkit-scrollbar-thumb:hover {
   align-items: center;
   width: 90%;
   padding: 10px;
-  background: #1e1e2f;
+  background: $background-color;
   border-radius: 15px;
-  box-shadow: 10px 10px 20px #14141f, -10px -10px 20px #28283f; /* Neumorfismo */
+  box-shadow: 10px 10px 20px $shadow-dark, -10px -10px 20px $shadow-light;
   margin: 20px auto;
-}
 
-.search-bar input {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  background: #1e1e2f;
-  color: #fff;
-  margin-right: 10px;
-  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f; /* Neumorfismo interno */
-}
+  input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: $background-color;
+    color: $text-color;
+    margin-right: 10px;
+    box-shadow: inset 5px 5px 10px $shadow-dark, inset -5px -5px 10px $shadow-light;
 
-.search-bar input::placeholder {
-  color: #b3b3b3; /* Color del texto del placeholder */
-}
+    &::placeholder {
+      color: $placeholder-color;
+    }
+  }
 
-.search-bar button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  background: #1e1e2f;
-  color: #fff;
-  cursor: pointer;
-  transition: box-shadow 0.3s ease;
-  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f; /* Neumorfismo */
-}
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: $background-color;
+    color: $text-color;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    box-shadow: 5px 5px 10px $shadow-dark, -5px -5px 10px $shadow-light;
 
-.search-bar button:hover {
-  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f; /* Neumorfismo interno al hacer hover */
+    &:hover {
+      box-shadow: inset 5px 5px 10px $shadow-dark, inset -5px -5px 10px $shadow-light;
+      transform: scale(1.05);
+    }
+  }
 }
 
 /* Artist and Song Results */
@@ -80,115 +91,134 @@ ion-content::-webkit-scrollbar-thumb:hover {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-  background: #1e1e2f;
+  background: $background-color;
   border-radius: 15px;
-  color: #fff;
+  color: $text-color;
   padding: 10px;
-  box-shadow: 10px 10px 20px #14141f, -10px -10px 20px #28283f; /* Neumorfismo */
+  box-shadow: 10px 10px 20px $shadow-dark, -10px -10px 20px $shadow-light;
   transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: inset 5px 5px 10px $shadow-dark, inset -5px -5px 10px $shadow-light;
+  }
+
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    margin-right: 15px;
+    box-shadow: 5px 5px 10px $shadow-dark, -5px -5px 10px $shadow-light;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: $placeholder-color;
+  }
 }
 
-.artist-card:hover,
-.song-card:hover {
-  transform: scale(1.02); /* Efecto de agrandamiento */
-  box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f; /* Neumorfismo interno al hacer hover */
-}
+.song-card {
 
-.artist-card img,
-.song-card img {
-  width: 80px;
-  height: 80px;
-  border-radius: 10px;
-  margin-right: 15px;
-  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f; /* Neumorfismo para las imágenes */
-}
 
-.artist-card h3,
-.song-card h3 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.artist-card p,
-.song-card p {
-  margin: 0;
-  font-size: 14px;
-  color: #b3b3b3;
+  .heart-button {
+    
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.3s ease;
+  }
 }
 
 /* Add to Playlist Icon */
 .add-to-playlist-icon {
   cursor: pointer;
   margin-left: auto;
+
   svg {
-    fill: gray; /* Color por defecto */
+    fill: gray;
     transition: fill 0.3s ease;
   }
 
   &.saved svg {
-    fill: rgb(136, 68, 131); /* Cambia a un color destacado cuando esté guardado */
+    fill: $highlight-color;
   }
+}
+
+/* Heart Button */
+.heart-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.3s ease;
 }
 
 /* Section Titles */
 h2 {
   font-size: 18px;
-  color: #fff;
+  color: $text-color;
   margin-bottom: 10px;
-  text-shadow: 2px 2px 4px #14141f; /* Sombra para destacar los títulos */
+  text-shadow: 2px 2px 4px $shadow-dark;
 }
 
 /* General Layout */
 .section {
   margin-bottom: 20px;
   padding: 15px;
-  background: #1e1e2f;
+  background: $background-color;
   border-radius: 15px;
-  box-shadow: 10px 10px 20px #14141f, -10px -10px 20px #28283f; /* Neumorfismo */
+  box-shadow: 10px 10px 20px $shadow-dark, -10px -10px 20px $shadow-light;
 }
 
 .filters {
   margin: 10px 0;
   padding: 10px;
-  background: #1e1e2f; /* Fondo oscuro */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f; /* Neumorfismo */
-  display: flex; /* Usamos flexbox */
-  justify-content: space-between; /* Espaciado entre los filtros */
-  align-items: center; /* Alineación vertical */
-  gap: 10px; /* Espaciado entre los elementos */
-}
-
-.filter-group {
+  background: $background-color;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px $shadow-dark, inset -5px -5px 10px $shadow-light;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  flex: 1; /* Los filtros ocupan el mismo espacio */
-}
+  gap: 10px;
 
-.filter-group label {
-  color: #fff;
-  margin-bottom: 5px;
-  font-size: 0.9rem; /* Tamaño de fuente más pequeño */
-}
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
 
-.filter-group select {
-  width: 100%; /* Ocupa todo el ancho disponible */
-  padding: 5px; /* Reduce el relleno */
-  border-radius: 8px;
-  background: #1e1e2f;
-  color: #fff;
-  border: none;
-  box-shadow: inset 3px 3px 6px #14141f, inset -3px -3px 6px #28283f; /* Neumorfismo interno */
-  font-size: 0.9rem; /* Tamaño de fuente más pequeño */
-  outline: none;
-  transition: box-shadow 0.3s ease;
-}
+    label {
+      color: $text-color;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
 
-.filter-group select:hover {
-  box-shadow: 3px 3px 6px #14141f, -3px -3px 6px #28283f; /* Neumorfismo externo */
-}
+    select {
+      width: 100%;
+      padding: 5px;
+      border-radius: 8px;
+      background: $background-color;
+      color: $text-color;
+      border: none;
+      box-shadow: inset 3px 3px 6px $shadow-dark, inset -3px -3px 6px $shadow-light;
+      font-size: 0.9rem;
+      outline: none;
+      transition: box-shadow 0.3s ease;
 
-.filter-group select:focus {
-  box-shadow: inset 3px 3px 6px #14141f, inset -3px -3px 6px #28283f; /* Neumorfismo interno */
+      &:hover {
+        box-shadow: 3px 3px 6px $shadow-dark, -3px -3px 6px $shadow-light;
+      }
+
+      &:focus {
+        box-shadow: inset 3px 3px 6px $shadow-dark, inset -3px -3px 6px $shadow-light;
+      }
+    }
+  }
 }

@@ -1,0 +1,193 @@
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #1e1e2f;
+    box-shadow: 0 5px 10px #14141f, 0 -5px 10px #28283f;
+  }
+  
+  .sidebar-header .close-btn {
+    background: #1e1e2f;
+    border-radius: 50%;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
+    cursor: pointer;
+  }
+  
+  .sidebar-header .close-btn:hover {
+    box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
+  }
+  
+  .sidebar-menu li {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    background: #1e1e2f;
+    border-radius: 10px;
+    margin: 5px 10px;
+    box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .sidebar-menu li:hover {
+    background-color: #28283f;
+    box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
+  }
+  
+  .sidebar-menu ion-icon {
+    margin-right: 10px;
+  }
+  
+  .carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    padding: 16px 0;
+  
+    /* Estilo de la barra de desplazamiento */
+    scrollbar-width: thin; /* Para navegadores compatibles */
+    scrollbar-color: #28283f #1e1e2f; /* Color del thumb y del track */
+  }
+  
+  .carousel::-webkit-scrollbar {
+    height: 8px; /* Altura de la barra de desplazamiento */
+  }
+  
+  .carousel::-webkit-scrollbar-track {
+    background: #1e1e2f; /* Fondo del track */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f; /* Neumorfismo interno */
+  }
+  
+  .carousel::-webkit-scrollbar-thumb {
+    background: #28283f; /* Color del thumb */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f; /* Neumorfismo externo */
+  }
+  
+  .carousel::-webkit-scrollbar-thumb:hover {
+    background: #3a3a4f; /* Color más claro al pasar el mouse */
+  }
+  
+  .carousel-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 150px;
+    text-align: center;
+    color: #fff;
+    background: #1e1e2f;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
+    padding: 10px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+  }
+  
+  .carousel-item:hover {
+    transform: scale(1.05);
+    box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
+  }
+  
+  .carousel-item img {
+    width: 100%;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 5px;
+  }
+  
+  .carousel-item span {
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+  }
+  
+  /* Genres */
+  .genres-list button {
+    background: #1e1e2f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .genres-list button:hover {
+    background: #28283f;
+    box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
+  }
+  
+  .my-playlists-section {
+    margin-top: 20px;
+  
+    h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+  
+    .carousel-item {
+      width: 150px;
+      text-align: center;
+      background: #1e1e2f;
+      border-radius: 10px;
+      box-shadow: 5px 5px 10px #14141f, -5px -5px 10px #28283f;
+      padding: 10px;
+      transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+  
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: inset 5px 5px 10px #14141f, inset -5px -5px 10px #28283f;
+      }
+  
+      img {
+        width: 100%;
+        height: 120px;
+        border-radius: 10px;
+        object-fit: cover;
+        margin-bottom: 5px;
+      }
+  
+      .playlist-info h3 {
+        font-size: 14px;
+        margin: 0;
+        color: #fff;
+      }
+  
+      .playlist-info small {
+        font-size: 12px;
+        color: gray;
+      }
+    }
+  }
+  .Campo{
+    padding: 38px;
+    background-color: #1e1e2f;
+    border-radius: 10px;
+    color: #fff;
+    width: 80%;
+    left: 10%;
+    margin: 0 auto;
+  }
+  .three-dots-btn{
+    background: #1e1e2f;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+  }
+  
